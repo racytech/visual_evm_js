@@ -1,25 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom';
+import { Layout } from './components/Layout';
+import { Spinner } from './components/Spinner';
+import { State } from './components/State/State';
 
-import { Test } from './components/Test';
-import { WS } from './hierarhy/01-WS/Websocket';
 
 const TARGET_ID = 'target';
 
-function App() {
+
+function Main() {
     return (
-        <div id="ttt">
-            <WS />
-            <Test />
-        </div>
+        <State>
+            <Layout />
+            <Spinner />
+        </State>
     )
 }
+
 
 function attach_react() {
     const target = document.createElement('div');
     target.id = TARGET_ID;
     document.body.appendChild(target);
-    ReactDOM.render(<App />, target);
+    ReactDOM.render(<Main />, target);
 }
 
-attach_react()
+window.addEventListener('DOMContentLoaded', (e) => {
+    attach_react();
+})
+

@@ -8,7 +8,7 @@
     "": "./node_modules/nodemon/bin/nodemon.js",
     "css": "node-sass --include-path scss ./src/scss/index.scss ./dev/index.css",
     "build": "node-sass --include-path scss ./src/scss/index.scss ./build/index.min.css --output-style compressed && uglifyjs -o ./build/index.min.js --compress --mangle -- ./dev/index.js",
-    "watch": "./node_modules/nodemon/bin/nodemon.js -w ./src -e scss -x \"npm run css && rollup -c rollup.config.js\" -w ./src/ -e tsx -x \"rollup -c rollup.config.js && npm run css\""
+    "watch": "./node_modules/nodemon/bin/nodemon.js --watch src -e ts,tsx,scss -x \"npm run css && rollup -c rollup.config.js\""
   },
   "keywords": [],
   "author": "",
@@ -18,7 +18,6 @@
     "@types/react-dom": "^17.0.11",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-router-dom": "^6.0.2",
     "rollup": "^2.60.0",
     "tslib": "^2.3.1",
     "typescript": "^4.5.2"
