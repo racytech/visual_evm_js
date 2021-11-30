@@ -1,4 +1,6 @@
 import React, { useContext, useState } from "react";
+import { IconButton } from "../shared/components/IconButton";
+import { ICON_SEARCH } from "../shared/icons";
 import { StateContext } from "../State/StateCtx";
 
 
@@ -6,7 +8,7 @@ import { StateContext } from "../State/StateCtx";
 export function SearchBar() {
 
     const [state, setState] = useState({
-        value: "",
+        value: "5915910",
         isErr: false,
     });
 
@@ -24,16 +26,16 @@ export function SearchBar() {
 
     function handleSearch(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault()
-
-        if (!state.isErr) {
-            console.log(state);
+        let v = state.value.trim()
+        if (!state.isErr && v) {
+            // console.log(state);
             // dispatch search
-            searchBlock(+state.value)
+            searchBlock(+v)
         }
 
     }
 
-    let classList = []
+    let classList: string[] = []
     if (state.isErr) {
         classList.push("error")
     }
@@ -47,9 +49,17 @@ export function SearchBar() {
                 value={state.value}
                 onChange={(e) => handleChange(e)}
             />
-            <button onClick={e => handleSearch(e)}>
+            {/* <button onClick={e => handleSearch(e)}>
                 search
-            </button>
+            </button> */}
+            <IconButton
+                action={handleSearch}
+                icon={ICON_SEARCH}
+                hint={"search for a block by its number"}
+                _classes={[]}
+            />
         </div>
     )
 }
+
+// 5915910

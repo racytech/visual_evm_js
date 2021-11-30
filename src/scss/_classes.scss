@@ -1,0 +1,59 @@
+/** font families and styles */
+.ubuntu-i {
+    font-family: $font-family-ubuntu;
+    font-style: italic;
+}
+
+/** font sizes **/
+// --font-size-xsmall: 0.5rem;
+// --font-size-small: 0.7rem;
+// --font-size-medium: 1rem;
+// --font-size-large: 1.2rem;
+// --font-size-xlarge: 1.6rem;
+.font-size-xs {
+    font-size: var(--font-size-xsmall);
+}
+
+.font-size-s {
+    font-size: var(--font-size-small);
+}
+
+.font-size-m {
+    font-size: var(--font-size-medium);
+}
+
+.font-size-l {
+    font-size: var(--font-size-large);
+}
+
+.font-size-xl {
+    font-size: var(--font-size-xlarge);
+}
+
+.disabled {
+    pointer-events: none; //This makes it not clickable
+    opacity: 0.6; //This grays it out to look disabled
+}
+
+/** inputs */
+
+// .is-input {
+//     border-bottom: 1px solid #000;
+// }
+
+// /** borders */
+// .border-bottom {
+//     border-bottom: 1px solid var(--black-a45);
+// }
+
+// .border-left {
+//     border-left: 1px solid var(--black-a45);
+// }
+
+// .border-right {
+//     border-right: 1px solid var(--black-a45);
+// }
+
+// .border-top {
+//     border-top: 1px solid var(--black-a45);
+// }

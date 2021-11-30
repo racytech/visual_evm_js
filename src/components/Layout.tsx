@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Components } from "./Content/Components";
 import { Tabs } from "./Content/Tabs";
 import { TxTree } from "./LeftSide/TxTree";
 import { SearchBar } from "./LeftSide/SearchBar";
+import { StateContext } from "./State/StateCtx";
 
+
+function Header() {
+    return (
+        <div id="header">
+            <h4>Erigon - transaction analysis</h4>
+        </div>
+    )
+}
 
 function LeftSide() {
     return (
@@ -21,17 +30,26 @@ function LeftSide() {
 
 
 function Content() {
+
+    const { state } = useContext(StateContext);
+    const { activeComponent } = state;
     return (
         <div id="content">
             {
+                activeComponent ?
+                    <>
+                        <Tabs />
+                        <Components />
+                    </>
+                    :
+                    null
                 /**
                  * display tabs and tab corresponding content
                  * map(tab -> content)
                  * content = React Component
                  */
             }
-            <Tabs />
-            <Components />
+
         </div>
     )
 }
@@ -41,8 +59,11 @@ export function Layout() {
 
     const layout = (
         <div id="layout">
-            <LeftSide />
-            <Content />
+            <Header />
+            <div id="layout-wrapper">
+                <LeftSide />
+                <Content />
+            </div>
         </div>
     )
 

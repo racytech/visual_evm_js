@@ -1,33 +1,47 @@
 #layout {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     position: absolute;
     top: 0;
     right: 0;
     left: 0;
     bottom: 0;
+    height: 100vh;
 
-    #left-side {
-        width: 240px;
-        height: 100%;
-
+    #header {
+        height: 30px;
+        background: var(--black-a15);
         display: flex;
-        flex-direction: column;
-
-        @import "./left-side/search-bar";
-
-        @import "./left-side/tx-tree";
+        align-items: center;
+        justify-content: center;
+        // align-self: center;
     }
 
-    #content {
-        flex-grow: 1;
-        height: 100%;
-
+    #layout-wrapper {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        height: 100vh;
+        #left-side {
+            width: 240px;
+            height: 100%;
 
-        @import "./content/content-tabs";
+            display: flex;
+            flex-direction: column;
 
-        @import "./content/content-components";
+            @import "./left-side/search-bar";
+
+            @import "./left-side/tx-tree";
+        }
+
+        #content {
+            flex-grow: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            @import "./content/content-tabs";
+
+            @import "./content/content-components";
+        }
     }
 }

@@ -1,1 +1,20 @@
 $height-40: 40px;
+
+/** paddings */
+$padding-2: 2px;
+$padding-4: 4px;
+$padding-8: 8px;
+$padding-16: 16px;
+
+/** fonts */
+$font-family-mont: "Montserrat", sans-serif;
+$font-family-pro: "Source Code Pro", monospace;
+$font-family-ubuntu: "Ubuntu", sans-serif;
+
+/** colors */
+$error: red;
+$success: green;
+$warn: yellow;
+$scroll-bar-color: var(--white-a18);
+$tx-active: var(--white-a06);
+$black-30: var(--black-a30);

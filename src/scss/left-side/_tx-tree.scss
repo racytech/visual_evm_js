@@ -1,4 +1,70 @@
 #tx-tree {
     flex-grow: 1;
-    height: 100%;
+    height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    > * {
+        padding-left: $padding-4;
+    }
+
+    #block-n {
+        height: 26px;
+        display: flex;
+        align-items: center;
+
+        h5 {
+            flex-grow: 1;
+        }
+    }
+
+    #tx-list {
+        flex-grow: 1;
+        max-height: 100%;
+        overflow: hidden;
+        overflow-y: auto;
+
+        > * {
+            font-family: $font-family-ubuntu;
+            font-size: var(--font-size-small);
+        }
+
+        .tx-number {
+            padding: $padding-2 0;
+            cursor: pointer;
+        }
+
+        .tx-number:hover {
+            background: $black-30;
+        }
+
+        .tx-info {
+            font-size: var(--font-size-xsmall);
+            padding-bottom: $padding-8;
+            li {
+                padding: $padding-2 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding-left: $padding-8;
+                cursor: pointer;
+                position: relative;
+                // height: 20px;
+            }
+
+            li:hover {
+                background: $black-30;
+            }
+
+            li.tx-active {
+                background: $tx-active;
+            }
+        }
+
+        .tx-info.collapsed {
+            display: none;
+        }
+    }
 }
+
+@include _scroll-bar("#tx-list");
