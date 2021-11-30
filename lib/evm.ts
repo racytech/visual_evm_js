@@ -1,7 +1,0 @@
-
-export class EVM {
-
-    constructor() {
-
-    }  
-}
