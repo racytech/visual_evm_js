@@ -30,49 +30,29 @@
             font-size: 14px;
         }
 
-        .tx-number {
-            padding: $padding-2 0;
-            cursor: pointer;
+        .tx-list-item {
+            margin-top: 6px;
         }
 
-        .tx-number:hover {
-            background: $black-30;
+        .tx-list-item.close {
+            > ul {
+                display: none;
+            }
         }
 
-        .tx-number:focus {
-            outline: none;
-            border: 1px $btn-outline dashed;
-        }
-
-        .tx-number.active-tab {
-            background: $tx-active;
-        }
-
-        .tx-info {
-            font-size: 12px;
-            margin-bottom: $padding-8;
-            border-left: 1px solid $muted-white;
-            li {
-                padding: $padding-2 0;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                padding-left: $padding-8;
-                cursor: pointer;
+        .tx-list-item {
+            ul {
                 position: relative;
-                // height: 20px;
+                li::before {
+                    content: "";
+                    width: 6px;
+                    height: 1px;
+                    border-bottom: 1px solid $muted-white;
+                    position: absolute;
+                    top: 8px;
+                    left: 0;
+                }
             }
-
-            li:hover {
-                background: $black-30;
-            }
-
-            li.tx-active {
-                background: $tx-active;
-            }
-        }
-
-        .tx-info.collapsed {
-            display: none;
         }
     }
 }

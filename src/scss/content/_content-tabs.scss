@@ -39,6 +39,10 @@
         .is-tab.tab-active {
             background: $black-30;
         }
+
+        .is-tab .icon-btn:hover {
+            background: $black-30;
+        }
     }
 
     #tab-list::-webkit-scrollbar {

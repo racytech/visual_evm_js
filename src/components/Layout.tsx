@@ -47,11 +47,14 @@ function LeftSide() {
 function Content() {
 
     const { state } = useContext(StateContext);
-    const { activeComponent } = state;
+    const { activeComponent, displayComponents } = state;
+
+    console.log(state);
+
     return (
         <div id="content">
             {
-                activeComponent ?
+                activeComponent || Object.values(displayComponents).length != 0 ?
                     <>
                         <Tabs />
                         <Components />

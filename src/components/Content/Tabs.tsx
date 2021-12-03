@@ -1,5 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { IconButton } from '../shared/components/IconButton';
+import { LinkBTN } from '../shared/components/LinkButton';
 import { closeIconWithFontSize } from '../shared/icons';
 
 import { StateContext } from '../State/StateCtx';
@@ -7,7 +8,7 @@ import { StateContext } from '../State/StateCtx';
 
 function Tab({ id }) {
 
-    const { setActiveCmp, state } = useContext(StateContext);
+    const { state, removeTab, setActiveCMP } = useContext(StateContext);
 
     const { activeComponent } = state;
 
@@ -18,44 +19,58 @@ function Tab({ id }) {
 
     function handleAcive(e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
         e.preventDefault()
-        setActiveCmp(id);
+        console.log(id)
+        setActiveCMP(id);
     }
 
-    function removeTab(e) {
+    function handleRemoveTab(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
         e.preventDefault();
-        console.log("Remove tab")
+        e.stopPropagation()
+        removeTab(id);
     }
 
     return (
-        <li
-            className={classList.join(" ")}
-            role="link" tabIndex={0}
-            onClick={(e) => handleAcive(e)}
+
+        <LinkBTN
+            _click={handleAcive}
+            _classes={classList}
+            hint={`${id}`}
         >
+
             <span className="tab-title" >{id}</span>
             { /** "CLOSE" ICON BTN GOES HERE */}
 
             <IconButton
-                action={removeTab}
+                _click={handleRemoveTab}
                 icon={closeIconWithFontSize("12px")}
                 _classes={["icon-btn-21"]}
                 hintPosition={"bottom right"}
                 hint="close window"
             />
-        </li>
+
+        </LinkBTN>
     )
 }
 
 function TabList() {
 
     const { state } = useContext(StateContext);
-    const { tabComponents } = state;
+    const { tabList } = state;
 
+    const scrollRef = useRef(null);
+
+    function handleScroll(e: React.WheelEvent<HTMLUListElement>) {
+        scrollRef.current.scrollLeft += e.deltaY;
+    }
 
     return (
-        <ul id="tab-list">
+        <ul
+            id="tab-list"
+            onWheel={e => handleScroll(e)}
+            ref={scrollRef}
+        >
             {
-                tabComponents.map((id, i) => {
+                tabList.map((id, i) => {
                     return <Tab key={id} id={id} />
                 })
             }

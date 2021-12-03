@@ -1,13 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { EVM } from "../Content/TabComponent/EVM";
+import { LinkBTN } from "../shared/components/LinkButton";
 import { StateContext } from "../State/StateCtx";
 
 
 function BlockN({ blockN }) {
-
-    // const result = (
-    //     blockN === null ?
-
-    // )
 
     return (
         <div id="block-n">
@@ -24,95 +21,117 @@ function BlockN({ blockN }) {
     )
 }
 
-function Transaction({ idx, from, to, hash, gas, gasPrice, input, value }) {
+function TreeBTN({ id, children, clickAction, level }) {
 
-    const { setActiveCmp, toggleCollapsed, state } = useContext(StateContext);
+    // className={`clickable ${activeComponent === `${idx}.evm` ? "tx-active" : ""}`}
 
-    const { activeComponent, collapsed } = state;
+    const { state } = useContext(StateContext);
 
+    const { activeComponent } = state;
+
+    level = level++;
+
+    const classList = []
+
+    return (
+        <ul style={{
+            paddingLeft: `${level * 8}px`,
+            borderLeft: '1px solid var(--white-a12)',
+        }}>
+
+
+            {/* <li
+                role="link"
+                tabIndex={0}
+                onClick={(e) => action(e, id)}
+            >
+                {id}
+            </li> */}
+
+            <LinkBTN
+                _click={clickAction}
+                _classes={activeComponent === id ? [...classList, "active"] : classList}
+                hint={`${id}`}
+                id={id}
+            >
+                {id}
+            </LinkBTN>
+
+            {
+                children.map((v, idx) => {
+                    return <TreeBTN
+                        key={idx}
+                        id={v.id}
+                        children={v.children}
+                        clickAction={clickAction}
+                        level={level}
+                    />
+                })
+            }
+
+        </ul>
+    )
+}
+
+function Transaction({ idx }) {
+
+    const { toggleCollapsed, addEVM, state } = useContext(StateContext);
+
+    const { collapsed, linkBtns } = state;
 
     function handleCollapse(e: React.MouseEvent<HTMLLIElement, MouseEvent> | React.KeyboardEvent<HTMLLIElement>) {
-        e.preventDefault()
+        e.preventDefault();
+
         toggleCollapsed(idx);
     }
 
-    // function keyUp(e: React.KeyboardEvent<HTMLLIElement>) {
-    //     e.preventDefault();
-    //     console.log(e);
-    //     if (e.type === 'keyup') {
-    //         const { code } = e;
-
-    //         if (code === "Space" || code === "Enter") {
-    //             handleCollapse(e);
-    //         }
-    //     }
-    // }
-
-    let classList: string[] = ["tx-info"];
-    if (!collapsed[idx]) {
-        classList.push("collapsed")
+    let thisLinkBtn;
+    for (const linkBtn of linkBtns) {
+        if (linkBtn.id === `${idx}-0.evm`) {
+            thisLinkBtn = linkBtn;
+        }
     }
 
-    let whenCollapsed: string[] = ["tx-number"];
-    if (!collapsed[idx] && (activeComponent === `${idx}.evm` || activeComponent === `${idx}.graph`)) {
-        whenCollapsed.push("active-tab")
-    }
+    console.log(thisLinkBtn);
 
-    function handleEVMClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
+    function handleLinkBtnClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>, id: string) {
         e.preventDefault();
-        console.log(`evm click: ${idx}.evm`);
-        setActiveCmp(`${idx}.evm`);
-    }
 
-    // function handleGraphClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
-    //     e.preventDefault();
-    //     console.log(`graph click: ${idx}.graph`);
-    //     setActiveCmp(`${idx}.graph`);
-    // }
+        addEVM(id, <EVM id={id} />)
+    }
 
     return (
-        <ul>
-            <li
-                // role="link"
-                // tabIndex={0}
-
-                className={whenCollapsed.join(" ")}
-                onClick={(e) => handleCollapse(e)}
-            // onKeyUp={(e) => keyUp(e)}            
+        <ul className={collapsed[idx] ? "tx-list-item" : "tx-list-item close"}>
+            <LinkBTN
+                _classes={[]}
+                _click={handleCollapse}
+                hint={'TEST'}
             >
-                <span role="link">
+                <span >
                     tx: {idx}
                 </span>
-            </li>
-            <ul className={classList.join(" ")} >
 
+            </ LinkBTN>
+            {
+                // thisLinkBtn.children.length ?
 
-                <li
-                    role="link"
-                    tabIndex={0}
-                    className={`clickable ${activeComponent === `${idx}.evm` ? "tx-active" : ""}`}
-                    onClick={(e) => handleEVMClick(e)}
-                >
-                    evm
-                </li>
-
-                {/* <li
-                    role="link"
-                    tabIndex={0}
-                    className={`clickable ${activeComponent === `${idx}.graph` ? "tx-active" : ""}`}
-                    onClick={(e) => handleGraphClick(e)}
-                >
-                    graph
-                </li> */}
-            </ul>
+                //     :
+                //     null
+            }
+            <TreeBTN
+                id={thisLinkBtn.id}
+                children={thisLinkBtn.children}
+                clickAction={handleLinkBtnClick}
+                level={1}
+            />
         </ul>
     )
 }
 
 export function TxTree() {
 
-    const { state, toggleSpinner } = useContext(StateContext);
-    const { transactions, blockN, activeComponent } = state;
+    const { state } = useContext(StateContext);
+    const { transactions, blockN } = state;
 
 
     return (

@@ -54,7 +54,7 @@ export function SearchBar() {
                 search
             </button> */}
             <IconButton
-                action={handleSearch}
+                _click={handleSearch}
                 icon={ICON_SEARCH}
                 hint={"search for a block by its number"}
                 _classes={[]}

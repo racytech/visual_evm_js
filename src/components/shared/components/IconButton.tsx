@@ -5,14 +5,14 @@ interface IconBtnInterface {
 }
 
 interface IconBtnProps {
-    action: Function,
+    _click: Function,
     icon: JSX.Element,
     hint: string,
     _classes: string[],
     hintPosition: "center left" | "top left" | "bottom left" | "center right" | "top right" | "bottom right"
 }
 
-export function IconButton({ action, icon, hint, _classes, hintPosition }: IconBtnProps) {
+export function IconButton({ _click, icon, hint, _classes, hintPosition }: IconBtnProps) {
 
 
     const [state, setState] = useState<IconBtnInterface>({
@@ -23,12 +23,13 @@ export function IconButton({ action, icon, hint, _classes, hintPosition }: IconB
 
     function __click(e: any) {
         e.preventDefault();
+        
         console.log(e);
         if (e.type === 'keyup') {
             const { code } = e;
 
             if (code === "Space" || code === "Enter") {
-                action(e);
+                _click(e);
             }
         }
     }
@@ -120,8 +121,9 @@ export function IconButton({ action, icon, hint, _classes, hintPosition }: IconB
             onClick={(e) => {
                 mouseIn = false;
                 clearTimeout(_timeout);
-                action(e);
+                _click(e);
             }}
+            
             onMouseEnter={(e) => mouseEnter(e)}
             onMouseLeave={(e) => mouseLeave(e)}
 

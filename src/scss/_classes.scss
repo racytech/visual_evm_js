@@ -57,3 +57,15 @@
 // .border-top {
 //     border-top: 1px solid var(--black-a45);
 // }
+
+.link-btn {
+    cursor: pointer;
+}
+
+.link-btn:hover {
+    background: $muted-white;
+}
+
+.link-btn.active {
+    background: $black-30;
+}
