@@ -26,7 +26,8 @@ export interface StateInterface {
     blockN?: number | null;
     contentComponents: string[]; // id list of the components
     activeComponent: string; // id of the active component 
-    tabComponents: string[]; // list of "opened" components 
+    tabComponents: string[]; // list of "opened" components
+    collapsed: { [key: number]: boolean };
 }
 
 export const INIT_STATE: StateInterface = {
@@ -36,10 +37,7 @@ export const INIT_STATE: StateInterface = {
     contentComponents: [],
     activeComponent: '',
     tabComponents: [],
-}
-
-function t() {
-    return new Set()
+    collapsed: {},
 }
 
 export function StateReducer(state = INIT_STATE, action: Action) {
@@ -49,9 +47,11 @@ export function StateReducer(state = INIT_STATE, action: Action) {
 
         case ACTIONS.SET_TRANSACTIONS:
             return {
-                ...state,
+                ...INIT_STATE,
                 transactions: action.payload.txs,
                 contentComponents: action.payload.contentComponents,
+                // tabComponents: [],
+                // activeComponent: '',
                 blockN: action.payload.blockN
             }
 
@@ -61,17 +61,46 @@ export function StateReducer(state = INIT_STATE, action: Action) {
         case ACTIONS.SET_ACTIVE_CMP:
             return {
                 ...state,
-                activeComponent: action.payload,
+                activeComponent: action.payload.id,
+                collapsed: {
+                    ...state.collapsed,
+                    [action.payload.idx]: true,
+                }
             };
 
         case ACTIONS.ADD_ACTIVE_CMP_WITH_TAB:
             return {
                 ...state,
-                activeComponent: action.payload,
-                tabComponents: [...state.tabComponents, action.payload],
+                activeComponent: action.payload.id,
+                tabComponents: [...state.tabComponents, action.payload.id],
+                collapsed: {
+                    ...state.collapsed,
+                    [action.payload.idx]: true,
+                }
             }
+
+
+        case ACTIONS.SET_COLLAPSED:
+            return {
+                ...state,
+                collapsed: {
+                    ...state.collapsed,
+                    [action.payload]: !state.collapsed[action.payload],
+                }
+            }
+
+        // case ACTIONS.SET_COLLAPSED_OPEN:
+        //     return {
+        //         ...state,
+        //         collapsed: {
+        //             ...state.collapsed,
+        //             [action.payload]: true,
+        //         }
+        //     }
 
         default:
             throw new Error('Shoudn\'t have happened...')
     }
 }
+
+

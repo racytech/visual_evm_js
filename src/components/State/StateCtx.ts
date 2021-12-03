@@ -6,6 +6,7 @@ interface StateContextInterface {
     toggleSpinner: (params: Spinner) => void;
     searchBlock: (blockN: number) => void;
     setActiveCmp: (id: string) => void;
+    toggleCollapsed: (idx: number) => void;
 }
 
 const ctx: StateContextInterface = {
@@ -13,6 +14,7 @@ const ctx: StateContextInterface = {
     toggleSpinner: () => { },
     searchBlock: () => { },
     setActiveCmp: () => { },
+    toggleCollapsed: () => { },
 }
 
 

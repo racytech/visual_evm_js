@@ -30,6 +30,7 @@ export function SearchBar() {
         if (!state.isErr && v) {
             // console.log(state);
             // dispatch search
+            // setState({ isErr: false, value: "" });
             searchBlock(+v)
         }
 
@@ -57,6 +58,7 @@ export function SearchBar() {
                 icon={ICON_SEARCH}
                 hint={"search for a block by its number"}
                 _classes={[]}
+                hintPosition={"bottom right"}
             />
         </div>
     )

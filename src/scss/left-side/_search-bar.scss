@@ -11,8 +11,8 @@
 
     position: relative;
 
-    border-bottom: 1px solid var(--white-a12);
-    border-right: 1px solid var(--white-a12);
+    border-bottom: 1px solid $border-c1;
+
     input {
         flex-grow: 1;
         height: 30px;
@@ -20,10 +20,9 @@
         padding-left: $padding-8;
     }
 
-    .icon-btn {
-        position: absolute;
-
-        right: 0;
+    input::placeholder {
+        font-size: 12px;
     }
+
     // input:
 }

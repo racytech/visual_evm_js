@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StateContext } from "../../State/StateCtx";
 
 
@@ -7,6 +7,9 @@ interface EVMInterface {
 }
 
 export function EVM({ id }) {
+
+
+    const [localState, setLocalState] = useState(0);
 
 
     const { state } = useContext(StateContext);
@@ -22,9 +25,17 @@ export function EVM({ id }) {
         :
         { display: "none" };
 
+    function incr(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        e.preventDefault();
+        let n = localState + 1;
+        setLocalState(n);
+    }
+
     return (
         <div className="evm-cmp" style={_style}>
             THIS IS COMPONENT {id}
+            <button onClick={(e) => incr(e)}>counter++</button>
+            <div>{localState}</div>
         </div>
     )
 }

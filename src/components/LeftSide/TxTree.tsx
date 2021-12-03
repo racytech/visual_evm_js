@@ -12,13 +12,13 @@ function BlockN({ blockN }) {
     return (
         <div id="block-n">
             {blockN === null ?
-                <h5>
-                    No block to display
-                </h5>
+                <h6>
+                    No transactions yet
+                </h6>
                 :
-                <h5>
+                <h6>
                     Block transactions
-                </h5>
+                </h6>
             }
         </div>
     )
@@ -26,27 +26,37 @@ function BlockN({ blockN }) {
 
 function Transaction({ idx, from, to, hash, gas, gasPrice, input, value }) {
 
-    const { setActiveCmp, state } = useContext(StateContext);
+    const { setActiveCmp, toggleCollapsed, state } = useContext(StateContext);
 
-    const { activeComponent } = state;
-
-    const [collapsed, setCollapsed] = useState(false);
-
-    if (!collapsed && (activeComponent === `${idx}.evm` || activeComponent === `${idx}.graph`)) {
-        setCollapsed(true);
-    }
+    const { activeComponent, collapsed } = state;
 
 
-    function handleCollapse(e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
+    function handleCollapse(e: React.MouseEvent<HTMLLIElement, MouseEvent> | React.KeyboardEvent<HTMLLIElement>) {
         e.preventDefault()
-        setCollapsed(!collapsed);
+        toggleCollapsed(idx);
     }
 
-    let classList: string[] = ["tx-info"]
-    if (!collapsed) {
+    // function keyUp(e: React.KeyboardEvent<HTMLLIElement>) {
+    //     e.preventDefault();
+    //     console.log(e);
+    //     if (e.type === 'keyup') {
+    //         const { code } = e;
+
+    //         if (code === "Space" || code === "Enter") {
+    //             handleCollapse(e);
+    //         }
+    //     }
+    // }
+
+    let classList: string[] = ["tx-info"];
+    if (!collapsed[idx]) {
         classList.push("collapsed")
     }
 
+    let whenCollapsed: string[] = ["tx-number"];
+    if (!collapsed[idx] && (activeComponent === `${idx}.evm` || activeComponent === `${idx}.graph`)) {
+        whenCollapsed.push("active-tab")
+    }
 
     function handleEVMClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
         e.preventDefault();
@@ -54,64 +64,28 @@ function Transaction({ idx, from, to, hash, gas, gasPrice, input, value }) {
         setActiveCmp(`${idx}.evm`);
     }
 
-    function handleGraphClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
-        e.preventDefault();
-        console.log(`graph click: ${idx}.graph`);
-        setActiveCmp(`${idx}.graph`);
-    }
+    // function handleGraphClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>) {
+    //     e.preventDefault();
+    //     console.log(`graph click: ${idx}.graph`);
+    //     setActiveCmp(`${idx}.graph`);
+    // }
 
     return (
         <ul>
             <li
-                className="tx-number"
+                // role="link"
+                // tabIndex={0}
+
+                className={whenCollapsed.join(" ")}
                 onClick={(e) => handleCollapse(e)}
+            // onKeyUp={(e) => keyUp(e)}            
             >
                 <span role="link">
-                    <span style={{ fontSize: "0.9rem" }}>tx</span> - {idx}
+                    tx: {idx}
                 </span>
             </li>
             <ul className={classList.join(" ")} >
 
-                <li  >
-                    <span role="link" className="disabled">
-                        from:{from}
-                    </span>
-                </li>
-
-                <li>
-                    <span role="link" className="disabled">
-                        to:{to}
-                    </span>
-                </li>
-
-                <li>
-                    <span role="link" className="disabled">
-                        hash:{hash}
-                    </span>
-                </li>
-
-                <li>
-                    <span role="link" className="disabled">
-                        gas:{gas}
-                    </span>
-                </li>
-
-                <li>
-                    <span role="link" className="disabled">
-                        gasPrice:{gasPrice}
-                    </span>
-                </li>
-
-                <li>
-                    <span role="link" className="disabled">
-                        value:{value}
-                    </span>
-                </li>
-                <li>
-                    <span role="link" className="disabled">
-                        input:{input}
-                    </span>
-                </li>
 
                 <li
                     role="link"
@@ -122,14 +96,14 @@ function Transaction({ idx, from, to, hash, gas, gasPrice, input, value }) {
                     evm
                 </li>
 
-                <li
+                {/* <li
                     role="link"
                     tabIndex={0}
                     className={`clickable ${activeComponent === `${idx}.graph` ? "tx-active" : ""}`}
                     onClick={(e) => handleGraphClick(e)}
                 >
                     graph
-                </li>
+                </li> */}
             </ul>
         </ul>
     )

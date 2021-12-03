@@ -7,9 +7,24 @@ import { StateContext } from "./State/StateCtx";
 
 
 function Header() {
+
+    const { state } = useContext(StateContext);
+
+    const { blockN, activeComponent } = state;
+
     return (
         <div id="header">
-            <h4>Erigon - transaction analysis</h4>
+            <h5>
+                {
+                    blockN === null ?
+                        "Erigon - transaction analysis"
+                        :
+                        activeComponent === "" ?
+                            `Analysis for block: ${blockN}`
+                            :
+                            `Block ${blockN}. transaction: ${activeComponent}`
+                }
+            </h5>
         </div>
     )
 }

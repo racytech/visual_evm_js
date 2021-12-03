@@ -16,7 +16,8 @@
         overflow-x: auto;
 
         .is-tab {
-            padding: $padding-2 $padding-16;
+            padding: $padding-2 $padding-8;
+            padding-left: 21px;
             max-width: 100%;
             height: 100%;
             flex: 0 0 auto;
@@ -26,6 +27,13 @@
             text-align: center;
 
             cursor: pointer;
+
+            // font-size: var(--font-size-xsmall);
+
+            .tab-title {
+                margin: 0 12px;
+                font-size: 12px;
+            }
         }
 
         .is-tab.tab-active {

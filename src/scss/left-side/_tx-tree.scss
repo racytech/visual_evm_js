@@ -6,17 +6,16 @@
     flex-direction: column;
 
     > * {
-        padding-left: $padding-4;
+        padding-left: $padding-8;
     }
 
     #block-n {
-        height: 26px;
+        height: 32px;
         display: flex;
         align-items: center;
 
-        h5 {
-            flex-grow: 1;
-        }
+        margin-bottom: 4px;
+        border-bottom: 1px solid $border-c1;
     }
 
     #tx-list {
@@ -24,10 +23,11 @@
         max-height: 100%;
         overflow: hidden;
         overflow-y: auto;
+        padding-bottom: $padding-8;
 
         > * {
-            font-family: $font-family-ubuntu;
-            font-size: var(--font-size-small);
+            font-family: $font-family-pro;
+            font-size: 14px;
         }
 
         .tx-number {
@@ -39,9 +39,19 @@
             background: $black-30;
         }
 
+        .tx-number:focus {
+            outline: none;
+            border: 1px $btn-outline dashed;
+        }
+
+        .tx-number.active-tab {
+            background: $tx-active;
+        }
+
         .tx-info {
-            font-size: var(--font-size-xsmall);
-            padding-bottom: $padding-8;
+            font-size: 12px;
+            margin-bottom: $padding-8;
+            border-left: 1px solid $muted-white;
             li {
                 padding: $padding-2 0;
                 overflow: hidden;

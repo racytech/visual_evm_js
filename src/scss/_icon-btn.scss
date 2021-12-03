@@ -1,7 +1,7 @@
 .icon-btn {
     width: 30px;
     height: 30px;
-    border-radius: 2px;
+
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -10,9 +10,8 @@
     outline: none;
 }
 
-.icon-btn:hover,
-.icon-btn:active {
-    outline: none;
+.icon-btn:focus {
+    outline: 1px $btn-outline dashed;
 }
 
 .icon-btn.icon-success {
@@ -29,52 +28,18 @@
     }
 }
 
-.icon-btn-hint {
-    border-radius: 2px;
-    position: absolute;
-    left: 24px;
-    top: 24px;
-    margin-right: 2px;
-    padding: 4px;
-    // text-align: center;
-    letter-spacing: 1.1px;
-    display: none;
-    min-width: 120px;
-    background: rgba(0, 0, 0, 0.438);
-}
-
-.icon-btn:hover {
-    .icon-btn-hint {
-        display: inline-block;
-    }
-}
-
-// .icon-btn.right-side:hover {
-//     .icon-btn-hint {
-//         left: 34px;
-//         display: flex;
-//     }
-// }
-
 .icon-btn.icon-btn-40 {
     width: 40px;
     height: 40px;
-
-    .icon-btn-hint {
-        right: 50px;
-    }
 }
 
 .icon-btn.icon-btn-21 {
     width: 21px;
     height: 21px;
-
-    .icon-btn-hint {
-        right: 25px;
-    }
 }
+
 .icon-btn-hint {
     // @include ubu-i(12px);
-    font-family: $font-family-ubuntu;
+    font-family: $font-family-mont;
     font-size: 12px;
 }

@@ -73,6 +73,7 @@ export function State({ children }) {
                     for (let i = 0; i < len_txs; i++) {
                         // @ts-ignore
                         payload.contentComponents.push(`${i}.evm`);
+                        // @ts-ignore
                         payload.contentComponents.push(`${i}.graph`);
                     }
                 }
@@ -83,24 +84,47 @@ export function State({ children }) {
 
     function setActiveCmp(id: string) {
 
-        let is_there = false;
+        let in_list = false;
         for (const tabCmp of state.tabComponents) {
             if (tabCmp === id) {
-                is_there = true;
+                in_list = true;
                 break;
             }
         }
 
-        if (!is_there) {
-            dispatch({
-                type: ACTIONS.ADD_ACTIVE_CMP_WITH_TAB,
-                payload: id,
-            })
-        } else {
-            dispatch({ type: ACTIONS.SET_ACTIVE_CMP, payload: id });
+        let idx = "";
+        for (let i = 0; i < id.length; i++) {
+            if (isNaN(+id[i])) {
+                break
+            }
+            idx += id[i]
         }
 
+        console.log(idx);
 
+        const payload = { id, idx: +idx } // id of the component and idx of the transaction
+
+        if (!in_list) {
+            // if tab that we want to add is not present in tablist
+            // add a tab to the list and set it as active tab
+            dispatch({
+                type: ACTIONS.ADD_ACTIVE_CMP_WITH_TAB,
+                payload,
+            })
+        } else {
+            dispatch({
+                type: ACTIONS.SET_ACTIVE_CMP,
+                payload,
+            });
+        }
+    }
+
+    function toggleCollapsed(idx: number, toOpen: boolean = false) {
+        if (toOpen) {
+            dispatch({ type: ACTIONS.SET_COLLAPSED_OPEN, payload: idx });
+        } else {
+            dispatch({ type: ACTIONS.SET_COLLAPSED, payload: idx });
+        }
     }
 
     return (
@@ -109,6 +133,7 @@ export function State({ children }) {
             searchBlock,
             toggleSpinner,
             setActiveCmp,
+            toggleCollapsed,
         }}>
             {children}
         </StateContext.Provider>

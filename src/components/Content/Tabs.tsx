@@ -1,4 +1,7 @@
 import React, { useContext, useState } from 'react';
+import { IconButton } from '../shared/components/IconButton';
+import { closeIconWithFontSize } from '../shared/icons';
+
 import { StateContext } from '../State/StateCtx';
 
 
@@ -18,14 +21,27 @@ function Tab({ id }) {
         setActiveCmp(id);
     }
 
+    function removeTab(e) {
+        e.preventDefault();
+        console.log("Remove tab")
+    }
+
     return (
         <li
             className={classList.join(" ")}
             role="link" tabIndex={0}
             onClick={(e) => handleAcive(e)}
         >
-            <span>{id}</span>
+            <span className="tab-title" >{id}</span>
             { /** "CLOSE" ICON BTN GOES HERE */}
+
+            <IconButton
+                action={removeTab}
+                icon={closeIconWithFontSize("12px")}
+                _classes={["icon-btn-21"]}
+                hintPosition={"bottom right"}
+                hint="close window"
+            />
         </li>
     )
 }
