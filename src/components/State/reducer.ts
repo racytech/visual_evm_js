@@ -1,14 +1,7 @@
+import { BlockHeader, Transaction } from "../../lib/types"
+import { LinkBTN } from "../../lib/utils"
 import { ACTIONS } from "../shared/actions"
 
-export interface Transaction {
-    from: string;
-    to: string | null;
-    hash: string;
-    gas: string;
-    gasPrice: string;
-    input: string;
-    value: string;
-}
 
 export interface Spinner {
     isOn: boolean;
@@ -20,31 +13,32 @@ export interface Action {
     payload: any;
 }
 
-interface LinkBTN {
-    id: string,
-    children: LinkBTN[],
-}
+
 
 export interface StateInterface {
     spinner: Spinner;
     transactions: Transaction[];
     blockN?: number | null;
+    blockHeader: BlockHeader | null;
     activeComponent: string; // id of the active component 
     tabList: string[]; // list of "opened" components
     collapsed: { [key: number]: boolean };
     displayComponents: { [key: string]: JSX.Element },
     linkBtns: LinkBTN[],
+    restFiles: string[],
 }
 
 export const INIT_STATE: StateInterface = {
     spinner: { isOn: false, msg: "" },
     transactions: [],
     blockN: null,
+    blockHeader: null,
     activeComponent: '',
     tabList: [],
     collapsed: {},
-    displayComponents: {},
+    displayComponents: {}, // transactions to be displayed as soon as search called
     linkBtns: [],
+    restFiles: [], // dynamically added "views"
 }
 
 export function StateReducer(state = INIT_STATE, action: Action) {
@@ -57,6 +51,7 @@ export function StateReducer(state = INIT_STATE, action: Action) {
                 ...INIT_STATE,
                 transactions: action.payload.txs,
                 blockN: action.payload.blockN,
+                blockHeader: action.payload.block,
                 linkBtns: action.payload.linkBtns,
             }
 

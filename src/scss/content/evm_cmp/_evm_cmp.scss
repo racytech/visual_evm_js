@@ -1,0 +1,132 @@
+.evm-cmp {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    > * {
+        box-sizing: border-box;
+    }
+
+    .upper-part {
+        flex-grow: 1;
+
+        display: flex;
+        flex-direction: row;
+
+        height: 0;
+
+        .exec-part {
+            flex-grow: 1;
+
+            overflow: hidden;
+            overflow-y: auto;
+
+            margin-bottom: $padding-8;
+
+            .exec-steps {
+                position: relative;
+
+                .step {
+                    height: 32px;
+                    // text-align: end;
+                    // display: inline-grid;
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    border-bottom: 1px dashed $border-c1;
+                    font-size: 14px;
+
+                    span {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    :first-child {
+                        width: 8%;
+                    }
+
+                    :nth-child(2) {
+                        width: 8%;
+                    }
+
+                    :nth-child(3) {
+                        width: 18%;
+                    }
+
+                    :nth-child(4) {
+                        width: 30%;
+                    }
+
+                    :last-child {
+                        width: calc(100% - 8% - 8% - 18% - 30%);
+                    }
+                }
+
+                .row-info-wrap {
+                    padding-bottom: $padding-8;
+                    position: -webkit-sticky;
+                    position: sticky;
+                    top: 0;
+                    background: #111111;
+                    height: 40px;
+                }
+
+                .row-info {
+                    // border-bottom: 1px dashed $border-c1;
+                    font-size: 14px;
+                    span {
+                        font-family: $font-family-mont;
+                        letter-spacing: 0.8;
+                        font-weight: bold;
+                        width: 100%;
+                    }
+                }
+
+                .step {
+                    span:not(:last-child) {
+                        border-right: 1px dashed $border-c1;
+                    }
+
+                    span {
+                        padding: 0 $padding-8;
+                    }
+                }
+            }
+        }
+
+        .right-part {
+            display: flex;
+            flex-direction: column;
+
+            border-left: 1px solid $border-c1;
+            .right-window {
+                width: 300px;
+
+                flex-grow: 1;
+            }
+
+            // .right-tool-bar {
+            //     width: 40px;
+            //     border-left: 1px solid $border-c1;
+            // }
+        }
+    }
+
+    .lower-part {
+        display: flex;
+        flex-direction: column;
+
+        .lower-tool-bar {
+            height: 40px;
+            border-bottom: 1px solid $border-c1;
+            border-top: 1px solid $border-c1;
+        }
+
+        .lower-window {
+            height: 300px;
+        }
+    }
+}
+
+@include _scroll-bar(".exec-part");

@@ -1,4 +1,6 @@
 import React, { useEffect, useReducer } from 'react'
+import { rpc_client } from '../../lib/rpc_client'
+import { BlockHeader } from '../../lib/types'
 import { ACTIONS } from '../shared/actions'
 import { INIT_STATE, Spinner, StateReducer } from './reducer'
 import { StateContext } from './StateCtx'
@@ -15,7 +17,18 @@ export function State({ children }) {
 
 
     useEffect(() => {
+        // let n = 5915910;
+        // postData(
+        //     "http://localhost:8545",
 
+        //     {
+        //         jsonrpc: "2.0",
+        //         method: "eth_getBlockByNumber",
+        //         params: [n.toString(16), true],
+        //         id: 1,
+        //     }
+
+        // );
     }, []);
 
     function toggleSpinner(params: Spinner) {
@@ -23,20 +36,50 @@ export function State({ children }) {
     }
 
     function searchBlock(blockN: number) {
-        fetchBlock(blockN)
+        // fetchBlock(blockN)
+        //     .then(data => {
+        //         const txs = data.result.transactions;
+
+        //         let payload = {
+        //             txs: [],
+        //             contentComponents: [],
+        //             blockN,
+        //             linkBtns: [],
+        //         };
+
+        //         let len_txs = txs.length;
+        //         if (txs && len_txs > 0) {
+        //             payload.txs = txs
+
+        //             for (let i = 0; i < len_txs; i++) {
+        //                 // @ts-ignore
+        //                 payload.linkBtns.push({
+        //                     id: `${ i } - 0.evm`,
+        //                     children: []
+        //                 });
+        //             }
+        //         }
+
+        //         dispatch({ type: ACTIONS.SET_TRANSACTIONS, payload });
+        //     })
+
+        rpc_client.getBlockByNumber(blockN)
             .then(data => {
-                const txs = data.result.transactions;
+
+                const block: BlockHeader = data.result;
+                const { transactions } = block;
 
                 let payload = {
                     txs: [],
                     contentComponents: [],
                     blockN,
+                    blockHeader: block,
                     linkBtns: [],
-                };
+                }
 
-                let len_txs = txs.length;
-                if (txs && len_txs > 0) {
-                    payload.txs = txs
+                let len_txs = transactions.length;
+                if (transactions && len_txs > 0) {
+                    payload.txs = transactions
 
                     for (let i = 0; i < len_txs; i++) {
                         // @ts-ignore
@@ -46,7 +89,7 @@ export function State({ children }) {
                         });
                     }
                 }
-
+                console.log(payload)
                 dispatch({ type: ACTIONS.SET_TRANSACTIONS, payload });
             })
     }

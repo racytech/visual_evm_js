@@ -49,7 +49,7 @@ function Content() {
     const { state } = useContext(StateContext);
     const { activeComponent, displayComponents } = state;
 
-    console.log(state);
+    // console.log(state);
 
     return (
         <div id="content">

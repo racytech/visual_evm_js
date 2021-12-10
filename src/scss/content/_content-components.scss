@@ -3,5 +3,9 @@
 
     height: 100%;
 
+    display: flex;
+
     background: $black-30;
+
+    @import "./evm_cmp/evm_cmp";
 }

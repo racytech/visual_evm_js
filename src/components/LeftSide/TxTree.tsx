@@ -23,8 +23,6 @@ function BlockN({ blockN }) {
 
 function TreeBTN({ id, children, clickAction, level }) {
 
-    // className={`clickable ${activeComponent === `${idx}.evm` ? "tx-active" : ""}`}
-
     const { state } = useContext(StateContext);
 
     const { activeComponent } = state;
@@ -39,14 +37,6 @@ function TreeBTN({ id, children, clickAction, level }) {
             borderLeft: '1px solid var(--white-a12)',
         }}>
 
-
-            {/* <li
-                role="link"
-                tabIndex={0}
-                onClick={(e) => action(e, id)}
-            >
-                {id}
-            </li> */}
 
             <LinkBTN
                 _click={clickAction}
@@ -73,11 +63,11 @@ function TreeBTN({ id, children, clickAction, level }) {
     )
 }
 
-function Transaction({ idx }) {
+function TxLink({ idx }) {
 
     const { toggleCollapsed, addEVM, state } = useContext(StateContext);
 
-    const { collapsed, linkBtns } = state;
+    const { collapsed, linkBtns, transactions } = state;
 
     function handleCollapse(e: React.MouseEvent<HTMLLIElement, MouseEvent> | React.KeyboardEvent<HTMLLIElement>) {
         e.preventDefault();
@@ -92,12 +82,19 @@ function Transaction({ idx }) {
         }
     }
 
-    console.log(thisLinkBtn);
-
     function handleLinkBtnClick(e: React.MouseEvent<HTMLLIElement, MouseEvent>, id: string) {
         e.preventDefault();
+        let n = "";
+        for (let i = 0; i < id.length; i++) {
+            if (isNaN(+id[i])) {
+                break;
+            }
+            n += id[i];
+        }
 
-        addEVM(id, <EVM id={id} />)
+        // console.log(transactions[+n]);
+
+        addEVM(id, <EVM id={id} tx={transactions[+n]} />);
     }
 
     return (
@@ -112,12 +109,7 @@ function Transaction({ idx }) {
                 </span>
 
             </ LinkBTN>
-            {
-                // thisLinkBtn.children.length ?
 
-                //     :
-                //     null
-            }
             <TreeBTN
                 id={thisLinkBtn.id}
                 children={thisLinkBtn.children}
@@ -131,24 +123,27 @@ function Transaction({ idx }) {
 export function TxTree() {
 
     const { state } = useContext(StateContext);
-    const { transactions, blockN } = state;
+    const { transactions, restFiles, blockN } = state;
 
 
     return (
         <div id="tx-tree">
             <BlockN blockN={blockN} />
-            <div id="tx-list">
+            <ul id="tx-list">
                 {
 
                     transactions.length > 0 ?
 
                         transactions.map((v, i) => {
-                            return <Transaction
+                            return <TxLink
                                 key={i}
                                 idx={i}
                                 {...v}
                             />
                         })
+
+
+
                         :
 
                         blockN === null ?
@@ -157,7 +152,28 @@ export function TxTree() {
                             <p>There are no transactions in this block</p>
 
                 }
-            </div>
+
+
+                {
+                    restFiles.length > 0 ?
+
+                        restFiles.map((v, i) => {
+                            return (
+                                <LinkBTN
+                                    key={v}
+                                    _click={() => { }}
+                                    _classes={[]}
+                                    hint={""}
+                                >
+                                    {v}
+                                </LinkBTN>
+                            )
+                        })
+
+                        :
+                        null
+                }
+            </ul>
         </div>
     )
 }
