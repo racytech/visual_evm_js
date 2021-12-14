@@ -4,10 +4,45 @@ import { BlockHeader } from '../../lib/types'
 import { ACTIONS } from '../shared/actions'
 import { INIT_STATE, Spinner, StateReducer } from './reducer'
 import { StateContext } from './StateCtx'
-
+import { u256_client } from '../../lib/u256_client'
 
 async function fetchBlock(blockN: number) {
     return await (await (fetch(`http://127.0.0.1:12345/blocks?block=${blockN}`))).json()
+}
+
+
+function mul(x: number, y: number): number {
+
+    if (x === 0xFF_FF_FF_FF && y == 0xFF_FF_FF_FF)
+        return 1
+
+    let [b, q, prod] = [x, y, 0];
+
+    while (q != 0) {
+        let bin_b = b.toString(2);
+        let bin_a = prod.toString(2);
+        let bin_q = q.toString(2);
+        console.log(`Binary B: ${b}`);
+        console.log(`Binary Q ${q}`);
+        console.log(`Binary Prod: ${prod}`)
+        if ((q & 1) === 1) {
+            prod = (prod + b) & 0xFF_FF_FF_FF
+        }
+        b = Math.abs((b * 2) & 0xFF_FF_FF_FF);
+        q >>= 1
+    }
+
+    return prod
+
+    // b, q, a = x, y, 0
+    // while q != 0:
+    //     if q & 1 == 1:
+    //         a += b 
+
+    //     b *= 2
+    //     q >>= 1
+
+    // return a
 }
 
 export function State({ children }) {
@@ -29,6 +64,15 @@ export function State({ children }) {
         //     }
 
         // );
+
+        setTimeout(() => {
+            u256_client.add({ hex: '0x24' }, { hex: '0xfe' })
+        }, 1000)
+
+
+        // let prod = mul(0xFF_FF_FF_FF, 0xFF_FF_FF_FE);
+        // console.log("FINAL PROD: ", prod)
+
     }, []);
 
     function toggleSpinner(params: Spinner) {

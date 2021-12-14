@@ -17,9 +17,14 @@ export function strHexToByte(a: string, b: string) {
 export function strHexToBytes(input: string): number[] {
     let data = [];
 
+
     if (input.length > 2) {
         input = input.slice(2);
-        console.log(input);
+
+        if (input.length % 2 === 1) {
+            input = "0" + input;
+        }
+
         let i = 0
         for (; i < input.length; i += 2) {
             let byte = strHexToByte(input[i], input[i + 1]);

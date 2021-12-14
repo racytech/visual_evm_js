@@ -4,3 +4,12 @@ dev
 package-lock.json
 
 TODO
+__pycache__
+
+ints.cpp
+ints
+cpp.sh
+
+Pipfile.lock
+
+tests

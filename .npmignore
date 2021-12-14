@@ -1,5 +1,7 @@
 src
 dev
+tests
 package-lock.json
 react.tsconfig.json
 rollup.config.js
+py_server
