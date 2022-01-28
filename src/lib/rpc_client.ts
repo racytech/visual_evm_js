@@ -71,6 +71,33 @@ class RPC_Client {
         const response = await fetch(this.url, makeBody(data))
         return response.json();
     }
+
+
+    public async getBalance(address: string, blockHash: string): Promise<RPC_Response> {
+        this.requestID++;
+        const data = {
+            jsonrpc: "2.0",
+            method: "eth_getBalance",
+            params: [address, blockHash],
+            id: this.requestID
+        }
+
+        const response = await fetch(this.url, makeBody(data))
+        return response.json();
+    }
+
+    public async getGasPrice(): Promise<RPC_Response> {
+        this.requestID++;
+        const data = {
+            jsonrpc: "2.0",
+            method: "eth_gasPrice",
+            params: [],
+            id: this.requestID
+        }
+
+        const response = await fetch(this.url, makeBody(data))
+        return response.json();
+    }
 }
 
 

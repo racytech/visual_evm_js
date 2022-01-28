@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { EVM } from "../Content/TabComponent/EVM";
+import { Contract } from "../../evm/contract";
+import { toEvenLength } from "../../lib/utils";
+import { Interpreter } from "../Content/TabComponent/Interpreter";
 import { LinkBTN } from "../shared/components/LinkButton";
 import { StateContext } from "../State/StateCtx";
 
@@ -65,7 +67,7 @@ function TreeBTN({ id, children, clickAction, level }) {
 
 function TxLink({ idx }) {
 
-    const { toggleCollapsed, addEVM, state } = useContext(StateContext);
+    const { toggleCollapsed, addIntrptr, state } = useContext(StateContext);
 
     const { collapsed, linkBtns, transactions } = state;
 
@@ -77,7 +79,7 @@ function TxLink({ idx }) {
 
     let thisLinkBtn;
     for (const linkBtn of linkBtns) {
-        if (linkBtn.id === `${idx}-0.evm`) {
+        if (linkBtn.id === `${idx}-0.in`) {
             thisLinkBtn = linkBtn;
         }
     }
@@ -93,8 +95,16 @@ function TxLink({ idx }) {
         }
 
         // console.log(transactions[+n]);
-
-        addEVM(id, <EVM id={id} tx={transactions[+n]} />);
+        const tx = transactions[+n];
+        // first initial contract for the first execution frame
+        const contract = new Contract("", tx.from, tx.to, toEvenLength(tx.input), tx.from);
+        addIntrptr(
+            id,
+            <Interpreter
+                id={id}
+                contract={contract}
+            />
+        );
     }
 
     return (

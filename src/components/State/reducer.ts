@@ -26,6 +26,7 @@ export interface StateInterface {
     displayComponents: { [key: string]: JSX.Element },
     linkBtns: LinkBTN[],
     restFiles: string[],
+    arrowUpDown: { [key: string]: number },
 }
 
 export const INIT_STATE: StateInterface = {
@@ -39,6 +40,7 @@ export const INIT_STATE: StateInterface = {
     displayComponents: {}, // transactions to be displayed as soon as search called
     linkBtns: [],
     restFiles: [], // dynamically added "views"
+    arrowUpDown: {}
 }
 
 export function StateReducer(state = INIT_STATE, action: Action) {
@@ -51,7 +53,7 @@ export function StateReducer(state = INIT_STATE, action: Action) {
                 ...INIT_STATE,
                 transactions: action.payload.txs,
                 blockN: action.payload.blockN,
-                blockHeader: action.payload.block,
+                blockHeader: action.payload.blockHeader,
                 linkBtns: action.payload.linkBtns,
             }
 

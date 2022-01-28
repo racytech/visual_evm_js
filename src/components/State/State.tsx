@@ -6,45 +6,6 @@ import { INIT_STATE, Spinner, StateReducer } from './reducer'
 import { StateContext } from './StateCtx'
 import { u256_client } from '../../lib/u256_client'
 
-async function fetchBlock(blockN: number) {
-    return await (await (fetch(`http://127.0.0.1:12345/blocks?block=${blockN}`))).json()
-}
-
-
-function mul(x: number, y: number): number {
-
-    if (x === 0xFF_FF_FF_FF && y == 0xFF_FF_FF_FF)
-        return 1
-
-    let [b, q, prod] = [x, y, 0];
-
-    while (q != 0) {
-        let bin_b = b.toString(2);
-        let bin_a = prod.toString(2);
-        let bin_q = q.toString(2);
-        console.log(`Binary B: ${b}`);
-        console.log(`Binary Q ${q}`);
-        console.log(`Binary Prod: ${prod}`)
-        if ((q & 1) === 1) {
-            prod = (prod + b) & 0xFF_FF_FF_FF
-        }
-        b = Math.abs((b * 2) & 0xFF_FF_FF_FF);
-        q >>= 1
-    }
-
-    return prod
-
-    // b, q, a = x, y, 0
-    // while q != 0:
-    //     if q & 1 == 1:
-    //         a += b 
-
-    //     b *= 2
-    //     q >>= 1
-
-    // return a
-}
-
 export function State({ children }) {
 
     // @ts-ignore
@@ -52,27 +13,8 @@ export function State({ children }) {
 
 
     useEffect(() => {
-        // let n = 5915910;
-        // postData(
-        //     "http://localhost:8545",
-
-        //     {
-        //         jsonrpc: "2.0",
-        //         method: "eth_getBlockByNumber",
-        //         params: [n.toString(16), true],
-        //         id: 1,
-        //     }
-
-        // );
-
-        setTimeout(() => {
-            u256_client.add({ hex: '0x24' }, { hex: '0xfe' })
-        }, 1000)
-
-
-        // let prod = mul(0xFF_FF_FF_FF, 0xFF_FF_FF_FE);
-        // console.log("FINAL PROD: ", prod)
-
+        u256_client.test_requests()
+            .then(console.log)
     }, []);
 
     function toggleSpinner(params: Spinner) {
@@ -80,32 +22,6 @@ export function State({ children }) {
     }
 
     function searchBlock(blockN: number) {
-        // fetchBlock(blockN)
-        //     .then(data => {
-        //         const txs = data.result.transactions;
-
-        //         let payload = {
-        //             txs: [],
-        //             contentComponents: [],
-        //             blockN,
-        //             linkBtns: [],
-        //         };
-
-        //         let len_txs = txs.length;
-        //         if (txs && len_txs > 0) {
-        //             payload.txs = txs
-
-        //             for (let i = 0; i < len_txs; i++) {
-        //                 // @ts-ignore
-        //                 payload.linkBtns.push({
-        //                     id: `${ i } - 0.evm`,
-        //                     children: []
-        //                 });
-        //             }
-        //         }
-
-        //         dispatch({ type: ACTIONS.SET_TRANSACTIONS, payload });
-        //     })
 
         rpc_client.getBlockByNumber(blockN)
             .then(data => {
@@ -128,7 +44,7 @@ export function State({ children }) {
                     for (let i = 0; i < len_txs; i++) {
                         // @ts-ignore
                         payload.linkBtns.push({
-                            id: `${i}-0.evm`,
+                            id: `${i}-0.in`,
                             children: []
                         });
                     }
@@ -136,6 +52,9 @@ export function State({ children }) {
                 console.log(payload)
                 dispatch({ type: ACTIONS.SET_TRANSACTIONS, payload });
             })
+
+        rpc_client.getGasPrice()
+            .then(console.log)
     }
 
 
@@ -147,7 +66,7 @@ export function State({ children }) {
         }
     }
 
-    function addEVM(id: string, element: JSX.Element) {
+    function addIntrptr(id: string, element: JSX.Element) {
 
         let isInTabs = false;
         for (const tabID of state.tabList) {
@@ -198,6 +117,7 @@ export function State({ children }) {
             }
 
             if (!state.collapsed[+n]) {
+                console.log("GOT HERE")
                 dispatch({
                     type: ACTIONS.SET_ACTIVE_CMP_2,
                     payload: {
@@ -276,7 +196,7 @@ export function State({ children }) {
             searchBlock,
             toggleSpinner,
             toggleCollapsed,
-            addEVM,
+            addIntrptr,
             setActiveCMP,
             removeTab,
         }}>

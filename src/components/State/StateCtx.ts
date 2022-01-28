@@ -6,7 +6,7 @@ interface StateContextInterface {
     toggleSpinner: (params: Spinner) => void;
     searchBlock: (blockN: number) => void;
     toggleCollapsed: (idx: number) => void;
-    addEVM: (id: string, element: JSX.Element) => void,
+    addIntrptr: (id: string, element: JSX.Element) => void,
     setActiveCMP: (id: string) => void,
     removeTab: (id: string) => void,
 }
@@ -16,9 +16,9 @@ const ctx: StateContextInterface = {
     toggleSpinner: () => { },
     searchBlock: () => { },
     toggleCollapsed: () => { },
-    addEVM: () => { },
+    addIntrptr: () => { },
     setActiveCMP: () => { },
-    removeTab: () => { }
+    removeTab: () => { },
 }
 
 

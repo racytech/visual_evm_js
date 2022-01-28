@@ -1,0 +1,85 @@
+.mem-window {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .mem-nav {
+        height: 30px;
+    }
+
+    .mem-self {
+        display: flex;
+        flex-direction: row;
+
+        .mem-title {
+            display: flex;
+            flex-direction: column;
+
+            span {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                height: 40px;
+                min-width: 44px;
+
+                border-right: 1px solid $border-c1;
+            }
+
+            span {
+                border-top: 1px solid $border-c1;
+            }
+
+            span:last-child {
+                border-bottom: 1px solid $border-c1;
+            }
+        }
+
+        .mem-lists {
+            flex-grow: 1;
+
+            display: flex;
+            flex-direction: column;
+
+            overflow: hidden;
+            overflow-x: auto;
+
+            width: 0;
+
+            ul {
+                display: flex;
+                flex-direction: row;
+
+                li {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 12px;
+                    height: 40px;
+                    min-width: 44px;
+                    border-right: 1px solid $border-c1;
+                    border-top: 1px solid $border-c1;
+                }
+            }
+
+            .mem-hex-row {
+                li {
+                    border-bottom: 1px solid $border-c1;
+                }
+            }
+        }
+
+        .mem-lists::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .mem-lists::-webkit-scrollbar-thumb {
+            background-color: $scroll-bar-color !important;
+        }
+    }
+
+    .mem-info {
+        font-size: 14px;
+        flex-grow: 1;
+    }
+}

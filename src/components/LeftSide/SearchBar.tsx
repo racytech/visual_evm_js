@@ -6,9 +6,11 @@ import { StateContext } from "../State/StateCtx";
 
 
 export function SearchBar() {
+    // blocks
+    // 5915910
 
     const [state, setState] = useState({
-        value: "5915910",
+        value: "6156190",
         isErr: false,
     });
 

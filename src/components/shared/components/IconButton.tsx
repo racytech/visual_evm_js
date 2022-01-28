@@ -23,8 +23,8 @@ export function IconButton({ _click, icon, hint, _classes, hintPosition }: IconB
 
     function __click(e: any) {
         e.preventDefault();
-        
-        console.log(e);
+
+        // console.log(e);
         if (e.type === 'keyup') {
             const { code } = e;
 
@@ -123,7 +123,7 @@ export function IconButton({ _click, icon, hint, _classes, hintPosition }: IconB
                 clearTimeout(_timeout);
                 _click(e);
             }}
-            
+
             onMouseEnter={(e) => mouseEnter(e)}
             onMouseLeave={(e) => mouseLeave(e)}
 

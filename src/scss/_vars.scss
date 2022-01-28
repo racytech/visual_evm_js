@@ -17,6 +17,15 @@ $error: red;
 $success: green;
 $warn: yellow;
 
+$pop: rgba(238, 102, 165, 0.158);
+$push: rgba(102, 238, 154, 0.158);
+
+$halts: rgba(235, 69, 69, 0.288);
+$reverts: rgba(102, 111, 238, 0.288);
+$returns: rgba(229, 238, 102, 0.288);
+$writes: rgba(238, 141, 102, 0.288);
+$jumps: rgba(102, 238, 170, 0.288);
+
 $scroll-bar-color: var(--white-a18);
 $btn-outline: var(--white-a18);
 
@@ -27,3 +36,4 @@ $muted-white: var(--white-a12);
 $border-c1: $muted-white;
 
 $white-40: var(--white-a40);
+$grey-1: #191919;

@@ -1,9 +1,12 @@
-import asyncio
-import os
-
-from aiohttp import web, WSMsgType
 import aiohttp_cors
+import json
+
+
+from aiohttp import web
 from aiohttp_cors.resource_options import ResourceOptions
+
+
+from py_server.u256_handler import u256_handler
 
 
 INDEX_HTML = """
@@ -48,26 +51,20 @@ INDEX_HTML = """
 # JS = os.path.join(dirname, '..', 'dev', 'index.js')
 
 
+async def u256_route(request: web.Request):
 
+    data = await request.json()
 
-async def u256_handler(request: web.Request):
-    
-    print(await request.json())
+    result = u256_handler(data)
 
-    resp = web.Response(text="asdasd")
-    # resp.headers.add('Content-Type', 'application/json')
-    # resp.headers.add('Access-Control-Allow-Origin', '*')
-    # resp.headers.add('Access-Control-Allow-Headers', 'content-type')
+    resp = web.Response(content_type="application/json",
+                        body=json.dumps(result))
 
     return resp
 
 
-
 async def index(request):
-    print(CSS)
-    print(JS)
     return web.Response(content_type="text/html", text=INDEX_HTML)
-
 
 
 async def css(request):
@@ -77,32 +74,45 @@ async def css(request):
         _css = f.read()
         return web.Response(text=_css)
 
+
 async def js(request):
     pass
 
+
 def init_func(argv):
     app = web.Application()
-    cors = aiohttp_cors.setup(app)
-    resource = cors.add(app.router.add_resource("/u256"))
-    cors.add(
-        resource.add_route("POST", u256_handler), {
-            "http://localhost:5500": aiohttp_cors.ResourceOptions(
-                allow_credentials=True,
-                expose_headers=("X-Custom-Server-Header",),
-                allow_headers=("X-Requested-With", "Content-Type", "Access-Control-Allow-Origin"),
-                max_age=3600,
-            )
-        })
+
+    if 'dev' in argv:
+        cors = aiohttp_cors.setup(app)
+        resource = cors.add(app.router.add_resource("/u256"))
+        cors.add(
+            resource.add_route("POST", u256_route), {
+                "http://localhost:5500": aiohttp_cors.ResourceOptions(
+                    allow_credentials=True,
+                    expose_headers=("X-Custom-Server-Header",),
+                    allow_headers=(
+                        "X-Requested-With",
+                        "Content-Type",
+                        "Access-Control-Allow-Origin"
+                    ),
+                    max_age=3600,
+                )
+            })
     # cors.add(route)
-    app.add_routes([
-        web.get('/', index),
-        web.get('/index.css', css),
-        web.get('/index.js', js),
-    ])
+        app.add_routes([
+            web.get('/', index),
+            web.get('/index.css', css),
+            web.get('/index.js', js),
+        ])
+    else:
+        app.add_routes([
+            web.get('/', index),
+            web.post('/u256', u256_route),
+            web.get('/index.css', css),
+            web.get('/index.js', js),
+        ])
+
     print(argv)
-
-
-
 
     return app
 
